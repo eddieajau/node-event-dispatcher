@@ -21,7 +21,7 @@ suite('EventDispatcher', function () {
 	function listener(value) {
 		return function () {
 			return value;
-		}
+		};
 	}
 
 	test('should be able to chain addListeners', function () {
