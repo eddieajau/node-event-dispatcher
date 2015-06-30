@@ -1,4 +1,7 @@
-# Node.js Event Dispatcher
+[![Build Status](https://travis-ci.org/eddieajau/node-event-dispatcher.svg?branch=master)](https://travis-ci.org/eddieajau/node-config-factory)
+[![Dependency Status](https://david-dm.org/eddieajau/node-event-dispatcher.svg)](https://david-dm.org/eddieajau/node-event-dispatcher)
+
+# event-dispatcher
 
 Many variations of event dispatchers exist for Node. Node even includes its own. However, none of them provide any sort of callback for when the listeners have all finished. This is what makes this package different.
 
