@@ -1,5 +1,6 @@
 [![Build Status](https://travis-ci.org/eddieajau/node-event-dispatcher.svg?branch=master)](https://travis-ci.org/eddieajau/node-config-factory)
-[![Dependency Status](https://david-dm.org/eddieajau/node-event-dispatcher.svg)](https://david-dm.org/eddieajau/node-event-dispatcher)
+[![Dependency Status](https://gemnasium.com/eddieajau/node-event-dispatcher.svg)](https://gemnasium.com/eddieajau/node-event-dispatcher)
+[![Code Climate](https://codeclimate.com/repos/5592025ce30ba01056016597/badges/2b9fa02abeb784d2193c/gpa.svg)](https://codeclimate.com/repos/5592025ce30ba01056016597/feed)
 
 # event-dispatcher
 
