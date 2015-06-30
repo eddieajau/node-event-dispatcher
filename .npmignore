@@ -1,0 +1,6 @@
+/.idea
+/coverage
+/jsdoc2md
+/test
+.jshintrc
+.travis.yml
