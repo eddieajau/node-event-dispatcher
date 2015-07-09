@@ -43,19 +43,19 @@ suite('EventDispatcher', function () {
 	test('should be able to add listeners with priority', function () {
 		var instance = new EventDispatcher();
 
-		instance.addListener('event', listener('1st'));
-		instance.addListener('event', listener('2nd'));
+		instance.addListener('event', listener('1st'), -1);
+		instance.addListener('event', listener('2nd'), 1);
 		instance.addListener('another', listener('3rd'));
-		instance.addListener('event', listener('4th'), -1);
-		instance.addListener('event', listener('5th'), 1);
+		instance.addListener('event', listener('4th'));
+		instance.addListener('event', listener('5th'));
 
 		var listeners = instance.getListeners('event');
 
 		assert.equal(listeners.length, 4);
-		assert.equal(listeners[0](), '5th');
-		assert.equal(listeners[1](), '1st');
-		assert.equal(listeners[2](), '2nd');
-		assert.equal(listeners[3](), '4th');
+		assert.equal(listeners[0](), '2nd');
+		assert.equal(listeners[1](), '4th');
+		assert.equal(listeners[2](), '5th');
+		assert.equal(listeners[3](), '1st');
 	});
 
 	test('adding listeners to an existing event should reset the sorting', function () {
