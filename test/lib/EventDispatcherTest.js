@@ -15,7 +15,8 @@ var assert = require('assert');
 var sinon = require('sinon');
 
 var EventDispatcher = require('app-root-path').require('/lib/EventDispatcher');
-var Event = require('app-root-path').require('/lib/Event');
+var Event = EventDispatcher.Event;
+var priority = EventDispatcher.priority;
 
 suite('EventDispatcher', function () {
 	function listener(value) {
@@ -23,6 +24,12 @@ suite('EventDispatcher', function () {
 			return value;
 		};
 	}
+
+	test('should be exported by the package index', function () {
+		var index = require('app-root-path').require('/lib');
+
+		assert(index === EventDispatcher);
+	});
 
 	test('should be able to chain addListeners', function () {
 		var instance = new EventDispatcher();
@@ -37,14 +44,14 @@ suite('EventDispatcher', function () {
 
 		var listeners = instance.getListeners('unknown');
 
-		assert.equal(listeners.length, 0);
+		assert.equal(listeners.length, priority.NORMAL);
 	});
 
 	test('should be able to add listeners with priority', function () {
 		var instance = new EventDispatcher();
 
-		instance.addListener('event', listener('1st'), -1);
-		instance.addListener('event', listener('2nd'), 1);
+		instance.addListener('event', listener('1st'), priority.LOW);
+		instance.addListener('event', listener('2nd'), priority.HIGH);
 		instance.addListener('another', listener('3rd'));
 		instance.addListener('event', listener('4th'));
 		instance.addListener('event', listener('5th'));

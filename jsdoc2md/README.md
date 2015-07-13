@@ -17,19 +17,29 @@ $ npm install @eddieajau/event-dispatcher
 ```js
 var EventDispatcher = require('@eddieajau/event-dispatcher');
 var Event = EventDispatcher.Event;
+var priority = EventDispatcher.priority;
 
 var dispatcher = new EventDispatcher();
 
 dispatcher.addListener('an-event', function listener1(event, next) {
   event.foo = 'bar';
   next();
-});
+}, priority.HIGHEST);
 
 dispatcher.dispatch('an-event')
   .then(function (event) {
     console.log(event.foo);
   });
 ```
+
+## Preset priotities
+* `HIGHEST`
+* `HIGHER`
+* `HIGH`
+* `NORMAL`
+* `LOW`
+* `LOWER`
+* `LOWEST`
 
 ## Code quality and tests
 
