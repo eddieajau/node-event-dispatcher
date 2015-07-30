@@ -60,6 +60,7 @@ $ npm run test
     * [.addListener(eventName, callback, [priority])](#EventDispatcher+addListener) ⇒ <code>[EventDispatcher](#EventDispatcher)</code>
     * [.getListeners(eventName)](#EventDispatcher+getListeners) ⇒ <code>Array.&lt;function()&gt;</code>
     * [.dispatch(eventName, [event])](#EventDispatcher+dispatch) ⇒ <code>[Event](#Event)</code>
+    * [.emit(eventName)](#EventDispatcher+emit)
   * _static_
     * [.Event](#EventDispatcher.Event) : <code>[Event](#Event)</code>
 
@@ -102,6 +103,18 @@ Dispatches an event to all registered listeners.
 | --- | --- | --- |
 | eventName | <code>String</code> | The name of the event to dispatch. |
 | [event] | <code>[Event](#Event)</code> | The event to pass to the event handlers/listeners.                             If not supplied, an empty Event instance is created. |
+
+<a name="EventDispatcher+emit"></a>
+#### eventDispatcher.emit(eventName)
+Emits an event to all registered listeners without returning on completion.
+
+This is different from `dispatch` in that it doesn't resolve, does not pass an event around and priority is unreliable.
+
+**Kind**: instance method of <code>[EventDispatcher](#EventDispatcher)</code>  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| eventName | <code>String</code> | The name of the event to dispatch. |
 
 <a name="EventDispatcher.Event"></a>
 #### EventDispatcher.Event : <code>[Event](#Event)</code>

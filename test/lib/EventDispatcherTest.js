@@ -112,7 +112,7 @@ suite('EventDispatcher', function () {
 			});
 	});
 
-	test('dispatch should stop proagation is an event makes it so', function () {
+	test('dispatch should stop proagation if an event makes it so', function () {
 		var instance = new EventDispatcher();
 
 		return instance
@@ -132,4 +132,30 @@ suite('EventDispatcher', function () {
 				assert(event.isPropagationStopped(), 'event should have marked propagation stopped');
 			});
 	});
+
+	test('emit should work like Nodes native event emitter', function (done) {
+		var instance = new EventDispatcher();
+		var called = {};
+		var isDone = function() {
+			if (called.listener3 && called.listener4) {
+				done();
+			}
+		};
+
+		return instance
+			.addListener('event', function listener3(arg1, arg2) {
+				assert.equal(arg1, 'foo');
+				assert.equal(arg2, 'bar');
+				called.listener3 = true;
+				isDone();
+			})
+			.addListener('event', function listener4(arg1, arg2) {
+				assert.equal(arg1, 'foo');
+				assert.equal(arg2, 'bar');
+				called.listener4 = true;
+				isDone();
+			})
+			.emit('event', 'foo', 'bar');
+	});
+
 });
