@@ -2,7 +2,8 @@
   "name": "@eddieajau/event-dispatcher",
   "version": "0.2.0",
   "description": "An event dispatcher for NodeJS.",
-  "main": "lib/index.js",
+  "main": "dist/src/index.js",
+  "typings": "dist/src/index",
   "devDependencies": {
     "app-root-path": "^1.0.0",
     "istanbul": "^0.3.14",
@@ -16,7 +17,7 @@
   },
   "scripts": {
     "check": "npm outdated",
-    "lint": "node_modules/.bin/jshint lib/ test/",
+    "lint": "node_modules/.bin/jshint src/ test/",
     "lint:checkstyle": "npm run lint -- --reporter checkstyle > checkstyle.xml",
     "cover": "node_modules/.bin/istanbul cover node_modules/.bin/_mocha -- -R spec test",
     "test": "npm run test:unit",

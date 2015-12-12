@@ -11,24 +11,34 @@
  * @license   MIT
  */
 
-var assert = require('assert');
 var sinon = require('sinon');
 
-var EventDispatcher = require('app-root-path').require('/lib/EventDispatcher');
-var Event = EventDispatcher.Event;
-var priority = EventDispatcher.priority;
+import * as assert from "assert";
+import * as index from "../../src/index";
+import {EventInterface} from "../../src/index";
 
-suite('EventDispatcher', function () {
-	function listener(value) {
+let EventDispatcher = index.EventDispatcher;
+let Event = index.Event;
+let EventPriority = index.EventPriority;
+
+class MyEvent extends Event {
+	public listener1:any;
+	public listener2:any;
+}
+
+suite.only('EventDispatcher', function () {
+	function listener(value: any) {
 		return function () {
 			return value;
 		};
 	}
 
 	test('should be exported by the package index', function () {
-		var index = require('app-root-path').require('/lib');
+		var main = require('app-root-path').require('/dist/src/index.js');
 
-		assert(index === EventDispatcher);
+		assert(main.EventDispatcher === EventDispatcher);
+		assert(main.Event === Event);
+		assert(main.EventPriority === EventPriority);
 	});
 
 	test('should be able to chain addListeners', function () {
@@ -44,14 +54,14 @@ suite('EventDispatcher', function () {
 
 		var listeners = instance.getListeners('unknown');
 
-		assert.equal(listeners.length, priority.NORMAL);
+		assert.equal(listeners.length, EventPriority.NORMAL);
 	});
 
-	test('should be able to add listeners with priority', function () {
+	test('should be able to add listeners with EventPriority', function () {
 		var instance = new EventDispatcher();
 
-		instance.addListener('event', listener('1st'), priority.LOW);
-		instance.addListener('event', listener('2nd'), priority.HIGH);
+		instance.addListener('event', listener('1st'), EventPriority.LOW);
+		instance.addListener('event', listener('2nd'), EventPriority.HIGH);
 		instance.addListener('another', listener('3rd'));
 		instance.addListener('event', listener('4th'));
 		instance.addListener('event', listener('5th'));
@@ -67,7 +77,7 @@ suite('EventDispatcher', function () {
 
 	test('adding listeners to an existing event should reset the sorting', function () {
 		var instance = new EventDispatcher();
-		var spy = sinon.spy(instance, '_sortListeners');
+		var spy = sinon.spy(instance, 'sortListeners');
 
 		instance.addListener('event', listener('1st'));
 		instance.addListener('another', listener('1st'));
@@ -87,46 +97,46 @@ suite('EventDispatcher', function () {
 		var instance = new EventDispatcher();
 
 		return instance.dispatch('event')
-			.then(function (result) {
-				assert(result instanceof Event, 'Event', 'the dispatcher should return an event');
+			.then(function (result: any) {
+				assert(result instanceof Event, 'the dispatcher should return an event');
 			});
 	});
 
 	test('dispatch should pass the event to each listener', function () {
 		var instance = new EventDispatcher();
-		var myEvent = new Event();
+		var myEvent = new MyEvent();
 
 		return instance
-			.addListener('event', function listener1(event, next) {
+			.addListener('event', function listener1(event: any, next: Function) {
 				event.listener1 = true;
 				next();
 			})
-			.addListener('event', function listener2(event, next) {
+			.addListener('event', function listener2(event: any, next: Function) {
 				event.listener2 = true;
 				next();
 			})
 			.dispatch('event', myEvent)
-			.then(function (result) {
-				assert.equal(myEvent.listener1, true, 'should have called listener 1');
-				assert.equal(myEvent.listener2, true, 'should have called listener 2');
+			.then(function (event: MyEvent) {
+				assert.equal(event.listener1, true, 'should have called listener 1');
+				assert.equal(event.listener2, true, 'should have called listener 2');
 			});
 	});
 
-	test('dispatch should stop proagation if an event makes it so', function () {
+	test('dispatch should stop propagation if an event makes it so', function () {
 		var instance = new EventDispatcher();
 
 		return instance
-			.addListener('event', function listener1(event, next) {
+			.addListener('event', function listener1(event: any, next: Function) {
 				event.listener1 = true;
 				event.stopPropagation();
 				next();
 			})
-			.addListener('event', function listener2(event, next) {
+			.addListener('event', function listener2(event: any, next: Function) {
 				event.listener2 = true;
 				next();
 			})
 			.dispatch('event')
-			.then(function (event) {
+			.then(function (event: MyEvent) {
 				assert.equal(event.listener1, true, 'should have called listener 1');
 				assert.equal(event.listener2, undefined, 'should never have invoke listener 2');
 				assert(event.isPropagationStopped(), 'event should have marked propagation stopped');
@@ -135,7 +145,7 @@ suite('EventDispatcher', function () {
 
 	test('emit should work like Nodes native event emitter', function (done) {
 		var instance = new EventDispatcher();
-		var called = {};
+		var called: any = {};
 		var isDone = function() {
 			if (called.listener3 && called.listener4) {
 				done();
@@ -143,13 +153,13 @@ suite('EventDispatcher', function () {
 		};
 
 		return instance
-			.addListener('event', function listener3(arg1, arg2) {
+			.addListener('event', function listener3(arg1: any, arg2: any) {
 				assert.equal(arg1, 'foo');
 				assert.equal(arg2, 'bar');
 				called.listener3 = true;
 				isDone();
 			})
-			.addListener('event', function listener4(arg1, arg2) {
+			.addListener('event', function listener4(arg1: any, arg2: any) {
 				assert.equal(arg1, 'foo');
 				assert.equal(arg2, 'bar');
 				called.listener4 = true;

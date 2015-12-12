@@ -1,3 +1,13 @@
+# Editor-specific
 /.idea
-/coverage
+
+# Installed libs
 /node_modules
+
+# Generated
+/coverage
+/dist
+
+# Misc
+npm-debug.log
+.DS_STORE

@@ -1,6 +1,15 @@
+# Editor-specific
 /.idea
+
+# Installed libs
+/typings
+
+# Generated
 /coverage
+/dist/test
 /jsdoc2md
 /test
+
+# Misc
 .jshintrc
 .travis.yml

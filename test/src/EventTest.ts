@@ -6,16 +6,19 @@
  * - Act        - do the thing we are testing
  * - Assert     - inspect the resulting state
  * - Annihilate - tear down
+ *
+ * @copyright Andrew Eddie 2015. All rights reserved.
+ * @license   MIT
  */
 
-var assert = require('assert');
-var Event = require('app-root-path').require('/lib/Event');
-
-var instance = new Event();
+import * as assert from "assert";
+import {Event} from "../../src/Event";
 
 suite('Event', function () {
 
 	test('should be able to set the propagation state', function () {
+		var instance = new Event()
+
 		assert.equal(instance.isPropagationStopped(), false, 'the default propagation should be not stopped');
 		instance.stopPropagation();
 		assert.equal(instance.isPropagationStopped(), true, 'the propagation should be stopped');

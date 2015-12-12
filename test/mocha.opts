@@ -1,2 +1,4 @@
 --ui tdd
 --recursive
+--require=./dist/test/bootstrap.js
+dist/test
