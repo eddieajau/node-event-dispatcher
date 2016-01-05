@@ -26,7 +26,7 @@ class MyEvent extends Event {
 	public listener2:any;
 }
 
-suite.only('EventDispatcher', function () {
+suite('EventDispatcher', function () {
 	function listener(value: any) {
 		return function () {
 			return value;
@@ -143,6 +143,21 @@ suite.only('EventDispatcher', function () {
 			});
 	});
 
+	test('dispatch should reject if an event passes an error', function (done) {
+		var instance = new EventDispatcher();
+
+		return instance
+			.addListener('event', function listener1(event: any, next: Function) {
+				next(new Error('stop!'));
+			})
+			.dispatch('event')
+			.catch((err: Error) => {
+				assert.equal(err.message, 'stop!');
+				done();
+			})
+			.catch(done);
+	});
+
 	test('emit should work like Nodes native event emitter', function (done) {
 		var instance = new EventDispatcher();
 		var called: any = {};
@@ -167,5 +182,4 @@ suite.only('EventDispatcher', function () {
 			})
 			.emit('event', 'foo', 'bar');
 	});
-
 });

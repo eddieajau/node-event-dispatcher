@@ -100,6 +100,8 @@ export class EventDispatcher {
 	/**
 	 * Dispatches an event to all registered listeners.
 	 *
+	 * If the callback passes an argument, it is treated as an unresolvable error and the promise rejects.
+	 *
 	 * @param {String} eventName - The name of the event to dispatch.
 	 * @param {Event}  [event]   - The event to pass to the event handlers/listeners.
 	 *                             If not supplied, an empty Event instance is created.
@@ -117,7 +119,10 @@ export class EventDispatcher {
 			var index = -1;
 
 			function next(err?: Error) {
-				// TODO What to do if err is defined?
+				if (err) {
+					return reject(err);
+				}
+
 				if (event.isPropagationStopped() || index >= limit) {
 					return resolve(event);
 				}

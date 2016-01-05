@@ -13,3 +13,4 @@
 # Misc
 .jshintrc
 .travis.yml
+npm-debug.log
