@@ -133,6 +133,21 @@ suite('EventDispatcher', function () {
 			});
 	});
 
+	test('dispatch should reject the promise if an error is passed to next', function (done) {
+		var instance = new EventDispatcher();
+
+		instance
+			.addListener('event', function listener1(event, next) {
+				next(new Error('the-error'));
+			})
+			.dispatch('event')
+			.catch(function (err) {
+				assert.equal(err.message, 'the-error', 'the error should be caught');
+				done();
+			})
+			.catch(done);
+	});
+
 	test('emit should work like Nodes native event emitter', function (done) {
 		var instance = new EventDispatcher();
 		var called = {};

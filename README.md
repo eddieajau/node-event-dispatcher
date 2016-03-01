@@ -29,6 +29,10 @@ dispatcher.addListener('an-event', function listener1(event, next) {
 dispatcher.dispatch('an-event')
   .then(function (event) {
     console.log(event.foo);
+  })
+  .catch(function (err) {
+    // If next is invoke like `next(err)`, if will reject.
+    console.err(err);
   });
 ```
 
