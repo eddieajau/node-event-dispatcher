@@ -4,6 +4,10 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased][unreleased]
 
+## [0.2.2][2016-03-02]
+### Fixed
+- `dispatch` rejection wasn't returning immediately.
+
 ## [0.2.1][2016-03-02]
 ### Changed
 - If next if invoked with an error argument, the `dispatch` Promise will reject.
